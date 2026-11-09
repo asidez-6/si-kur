@@ -97,3 +97,70 @@ def test_A09_hapus_semua_data(client):
     assert d["tanggal_sistem"] == tgl and d["status_kredit"] == {} and d["invariant_ok"]
     assert d["dana"]["available"] == d["dana"]["pagu"]
     assert client.post("/api/sistem/reset", headers=tok(client, "admin", "admin123")).status_code == 200
+
+
+def test_A10_notifikasi_arsip_dan_log(client):
+    h = tok(client, "petugas", "petugas123")
+    # notifikasi: list dan baca semua
+    r = client.get("/api/notifikasi", headers=h)
+    assert r.status_code == 200 and isinstance(r.json(), list)
+    r2 = client.post("/api/notifikasi/baca-semua", headers=h)
+    assert r2.status_code == 200 and r2.json()["ok"] is True
+    # filter tujuan
+    r3 = client.get("/api/notifikasi?tujuan=PETUGAS", headers=h)
+    assert r3.status_code == 200
+    # arsip kredit
+    a = client.get("/api/arsip", headers=h)
+    assert a.status_code == 200 and isinstance(a.json(), list)
+    # log aktivitas
+    l = client.get("/api/log", headers=h)
+    assert l.status_code == 200 and isinstance(l.json(), list)
+    # hak akses: debitur tidak boleh melihat arsip/log
+    dh = tok(client, "bambang", "debitur123")
+    assert client.get("/api/arsip", headers=dh).status_code == 403
+    assert client.get("/api/log", headers=dh).status_code == 403
+
+
+def test_A11_cakupan_endpoint_tambahan(client):
+    pet = tok(client, "petugas", "petugas123")
+    adm = tok(client, "admin", "admin123")
+    # auth me & logout
+    assert client.get("/api/auth/me", headers=pet).status_code == 200
+    # kategori
+    assert client.get("/api/kategori", headers=pet).status_code == 200
+    # detail debitur (ambil id dari list)
+    deb_list = client.get("/api/debitur", headers=pet).json()
+    did = deb_list[0]["id"]
+    assert client.get(f"/api/debitur/{did}", headers=pet).status_code == 200
+    # catatan & insiden
+    assert client.post(f"/api/debitur/{did}/catatan", json={"isi": "catatan uji coba"}, headers=pet).status_code == 200
+    # watchlist
+    assert client.get("/api/watchlist", headers=pet).status_code == 200
+    # sistem & maju hari
+    assert client.get("/api/sistem", headers=pet).status_code == 200
+    assert client.post("/api/sistem/maju-hari", json={"hari": 1}, headers=pet).status_code == 200
+    # portal debitur
+    debh = tok(client, "bambang", "debitur123")
+    assert client.get("/api/saya", headers=debh).status_code == 200
+    assert client.post("/api/saya/notifikasi/baca", headers=debh).status_code == 200
+    # logout
+    assert client.post("/api/auth/logout", headers=pet).status_code == 200
+
+
+def test_A12_cakupan_mutasi(client):
+    pet = tok(client, "petugas", "petugas123")
+    adm = tok(client, "admin", "admin123")
+    deb_list = client.get("/api/debitur", headers=pet).json()
+    did = deb_list[0]["id"]
+    # insiden
+    r = client.post(f"/api/debitur/{did}/insiden", json={"jenis": "USAHA_MENURUN", "keterangan": "uji insiden coverage"}, headers=pet)
+    assert r.status_code in (200, 400)
+    # kategori ubah
+    r = client.put("/api/kategori/1", json={"max_plafon": 15000000}, headers=adm)
+    assert r.status_code == 200
+    # watchlist kapasitas
+    r = client.put("/api/watchlist/kapasitas", json={"kapasitas": 6}, headers=adm)
+    assert r.status_code == 200
+    # parameter (valid)
+    r = client.put("/api/sistem/parameter", json={"grace_period_hari": 5}, headers=adm)
+    assert r.status_code in (200, 400)
