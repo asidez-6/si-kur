@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Masuk — SI-KUR</title>
+  <link rel="stylesheet" href="/css/style.css?v=2">
+</head>
+<body>
+<div class="login-page">
+  <section class="login-hero">
+    <div class="logo" style="border:0;padding:0;margin-bottom:24px">
+      <div class="logo-mark">KUR</div>
+      <div><b>SI-KUR</b><span>Kredit Usaha Rakyat Anti Macet</span></div>
+    </div>
+    <h1>Salurkan KUR tanpa membuat dana kolaps.</h1>
+    <p>Prototype sistem manajemen kredit UMKM yang mengadopsi 4 pilar Sistem Operasi:</p>
+    <ul>
+      <li><b>Banker's Algorithm</b> — uji keamanan setiap pencairan (safe state)</li>
+      <li><b>LFU</b> — slot pengawasan intensif debitur berisiko</li>
+      <li><b>Buku induk digital</b> — arsip siklus kredit &amp; skor historis</li>
+      <li><b>Grace Period &amp; Eskalasi</b> — penanganan kredit macet (deadlock)</li>
+    </ul>
+    <p class="small" style="opacity:.75;margin-top:28px">Kelompok 10 · Sistem Operasi PjBL Kelas F · UIN Maulana Malik Ibrahim Malang</p>
+  </section>
+  <section class="login-form">
+    <div class="login-card">
+      <h2>Masuk ke SI-KUR</h2>
+      <p class="muted">Gunakan akun petugas/admin atau akun debitur.</p>
+      <div id="err"></div>
+      <form id="f">
+        <label for="u">Username</label>
+        <input id="u" autocomplete="username" required>
+        <label for="p">Password</label>
+        <input id="p" type="password" autocomplete="current-password" required>
+        <button class="btn primary" style="width:100%;justify-content:center;margin-top:16px">Masuk</button>
+      </form>
+      <div class="demo-acc">
+        <b>Akun demo</b> (klik untuk mengisi):<br>
+        <button class="btn sm" data-u="admin" data-p="admin123">Admin · admin/admin123</button>
+        <button class="btn sm" data-u="petugas" data-p="petugas123">Petugas · petugas/petugas123</button>
+        <button class="btn sm" data-u="bambang" data-p="debitur123">Debitur · bambang/debitur123</button>
+        <button class="btn sm" data-u="indah" data-p="debitur123">Debitur · indah/debitur123</button>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="/js/common.js?v=2"></script>
+<script>
+  document.querySelectorAll("[data-u]").forEach(b => b.onclick = () => { u.value = b.dataset.u; p.value = b.dataset.p; });
+  f.onsubmit = async e => {
+    e.preventDefault();
+    try {
+      const r = await API.post("/api/auth/login", { username: u.value.trim(), password: p.value });
+      localStorage.setItem("sikur_token", r.token);
+      localStorage.setItem("sikur_user", JSON.stringify(r.pengguna));
+      location.href = r.pengguna.peran === "DEBITUR" ? "/debitur.html" : "/petugas.html";
+    } catch (ex) { err.innerHTML = `<div class="alert bad">${esc(ex.message)}</div>`; }
+  };
+</script>
+</body>
+</html>

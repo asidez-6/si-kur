@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard Petugas — SI-KUR</title>
+  <link rel="stylesheet" href="/css/style.css?v=2">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-mark">KUR</div>
+      <div><b>SI-KUR</b><span>Dashboard Petugas</span></div>
+    </div>
+    <nav class="nav" id="nav">
+      <div class="nav-sep">Pemantauan</div>
+      <a href="#ringkasan"><span class="ico">▦</span>Ringkasan</a>
+      <a href="#bankers"><span class="ico">⚖</span>Banker's Algorithm</a>
+      <a href="#watchlist"><span class="ico">◉</span>Slot Pengawasan (LFU)</a>
+      <a href="#notifikasi"><span class="ico">🔔</span>Notifikasi<span class="count" id="notif-count" hidden></span></a>
+      <div class="nav-sep">Operasional</div>
+      <a href="#pengajuan"><span class="ico">＋</span>Pengajuan &amp; Pencairan</a>
+      <a href="#debitur"><span class="ico">👥</span>Data Debitur</a>
+      <a href="#arsip"><span class="ico">🗄</span>Arsip Kredit</a>
+      <div class="nav-sep">Sistem</div>
+      <a href="#simulasi"><span class="ico">⏱</span>Timer &amp; Simulasi Waktu</a>
+      <a href="#pengaturan"><span class="ico">⚙</span>Pengaturan &amp; Log</a>
+    </nav>
+  </aside>
+  <div class="main">
+    <header class="topbar">
+      <div class="title" id="page-title">Ringkasan</div>
+      <div class="spacer"></div>
+      <div class="clock" title="Tanggal virtual sistem">📅 <span id="tgl-sistem">-</span></div>
+      <span class="user-chip" id="user-chip"></span>
+      <button class="btn sm" onclick="API.logout()">Keluar</button>
+    </header>
+    <main class="content" id="view"><div class="empty">Memuat…</div></main>
+  </div>
+</div>
+<script src="/js/common.js?v=2"></script>
+<script src="/js/petugas.js?v=2"></script>
+</body>
+</html>

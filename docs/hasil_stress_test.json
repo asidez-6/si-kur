@@ -1,0 +1,80 @@
+{
+  "X01_operasi_acak": {
+    "pencairan": 1096,
+    "DISETUJUI": 507,
+    "DITUNDA_DANA_KURANG": 56,
+    "DITUNDA_UNSAFE": 9,
+    "DITOLAK_MELEBIHI_PLAFON": 524,
+    "bayar": 680,
+    "maju_hari": 393,
+    "debitur_baru": 384,
+    "error_bisnis": 4,
+    "cek_invariant": 3000,
+    "pembekuan_plafon": 46,
+    "status_akhir_kredit": {
+      "DITOLAK": 193,
+      "LUNAS": 15,
+      "MACET": 176
+    },
+    "durasi_detik": 80.98
+  },
+  "X02_bank_run": {
+    "debitur": 40,
+    "total_klaim_max": 7280000000,
+    "pagu": 2000000000,
+    "hasil_awal": {
+      "DISETUJUI": 15,
+      "DITUNDA_DANA_KURANG": 25
+    },
+    "available_setelah_gelombang": 0,
+    "antrean_awal": 25,
+    "antrean_setelah_14_bulan": 0,
+    "total_disetujui_akhir": 40
+  },
+  "X03_concurrency": {
+    "thread": 30,
+    "permintaan_per_thread": 100000000,
+    "pagu": 500000000,
+    "disetujui": 3,
+    "ditunda": 27,
+    "total_allocation": 300000000
+  },
+  "X04_gagal_bayar_massal": {
+    "debitur": 30,
+    "outstanding": 1920000000,
+    "macet": 30,
+    "klaim_penjaminan": 1344000000,
+    "kerugian": 576000000,
+    "available_akhir": 1424000000,
+    "notifikasi_collections": 30,
+    "insiden": 180
+  },
+  "X05_input_ekstrem": {
+    "nol": "DITOLAK: Jumlah pencairan harus > 0",
+    "negatif": "DITOLAK: Jumlah pencairan harus > 0",
+    "1_rupiah": "DISETUJUI",
+    "sangat_besar": "DITOLAK_MELEBIHI_PLAFON",
+    "tepat_need": "DISETUJUI",
+    "kredit_tidak_ada": "DITOLAK: Kredit tidak ditemukan",
+    "debitur_tidak_ada": "DITOLAK: Debitur tidak ditemukan"
+  },
+  "X06_performa": {
+    "100_debitur_ms": 0.5,
+    "500_debitur_ms": 9.03,
+    "1000_debitur_ms": 6.62,
+    "2000_debitur_ms": 16.83
+  },
+  "X07_lfu": {
+    "insiden": 400,
+    "debitur": 25,
+    "kapasitas": 5,
+    "jumlah_evict": 313,
+    "isi_akhir": {
+      "19": 24,
+      "2": 23,
+      "11": 22,
+      "14": 22,
+      "18": 16
+    }
+  }
+}

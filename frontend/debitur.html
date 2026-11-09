@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portal Debitur — SI-KUR</title>
+  <link rel="stylesheet" href="/css/style.css?v=2">
+  <style>
+    .wrap { max-width: 980px; margin: 0 auto; padding: 20px 16px 40px; }
+    .top { background: var(--brand); color: #fff; }
+    .top .wrap { display: flex; align-items: center; gap: 12px; padding-top: 12px; padding-bottom: 12px; }
+    .top .btn { background: transparent; color: #fff; border-color: rgba(255,255,255,.4); }
+    .progress { height: 14px; background: #eef2f6; border-radius: 99px; overflow: hidden; }
+    .progress span { display: block; height: 100%; background: var(--hijau); }
+    .next-due { font-size: 1.6rem; font-weight: 800; }
+    .help-steps { counter-reset: s; list-style: none; padding: 0; margin: 0; }
+    .help-steps li { counter-increment: s; padding: 8px 0 8px 36px; position: relative; font-size: 13.5px; }
+    .help-steps li::before { content: counter(s); position: absolute; left: 0; top: 6px; width: 24px; height: 24px; border-radius: 50%; background: var(--brand-soft); color: var(--brand); font-weight: 700; display: grid; place-items: center; font-size: 12px; }
+  </style>
+</head>
+<body>
+<div class="top"><div class="wrap">
+  <div class="logo-mark">KUR</div>
+  <div><b>SI-KUR</b> <span class="small" style="opacity:.8">Portal Debitur</span></div>
+  <div style="flex:1"></div>
+  <span class="small" id="tgl"></span>
+  <button class="btn sm" onclick="API.logout()">Keluar</button>
+</div></div>
+<div class="wrap" id="view"><div class="empty">Memuat…</div></div>
+<script src="/js/common.js?v=2"></script>
+<script src="/js/debitur.js?v=2"></script>
+</body>
+</html>
